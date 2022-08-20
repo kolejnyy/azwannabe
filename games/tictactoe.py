@@ -57,3 +57,6 @@ class TicTacToe(Game):
 
 	def equal_state(self, state1, state2):
 		return (state1==state2).all()
+
+	def hashable_state(self, state):
+		return tuple(state)

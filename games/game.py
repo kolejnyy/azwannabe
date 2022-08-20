@@ -27,3 +27,6 @@ class Game:
 
 	def equal_state(self, state1, state2):
 		raise Exception("State comparison not implemented!")
+
+	def hashable_state(self, state):
+		raise Exception("State hashes not implemented!")

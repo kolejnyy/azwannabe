@@ -56,3 +56,8 @@ class ToxicToads(Game):
 		if state1 is None or state2 is None:
 			return False
 		return state1[1]==state2[1] and (state1[0]==state2[0]).all()
+
+	def hashable_state(self, state):
+		board, moves = deepcopy(state)
+		board = tuple(board)
+		return board+(moves,)
