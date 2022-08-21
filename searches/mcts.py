@@ -121,7 +121,7 @@ class MCTS:
 					update(history, reward, self.val_f(curr_state, best_move))
 					break
 		
-		return N_r[0]/N_sum[0]
+		return N_r[0]/N_sum[0], Q[0]
 
 	def print_parameters(self):
 		print(self.lmbd)
