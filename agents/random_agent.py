@@ -5,6 +5,7 @@ from random import choice
 class RandomAgent(Agent):
 	def __init__(self, game : Game):
 		super().__init__(game)
+		self.name = "Random Agent"
 	
 	def play(self, state):
 		possible_actions = self.game.possible_actions(state)
