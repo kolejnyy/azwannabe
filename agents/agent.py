@@ -1,8 +1,8 @@
-
+from games import Game
 
 class Agent:
 
-	def __init__(self, game):
+	def __init__(self, game : Game):
 		self.name = 'Agent'
 		self.game = game
 
