@@ -26,13 +26,16 @@ class AZAgent(Agent):
 	def save_model(self, path):
 		torch.save(self.model.state_dict(), path)
 
-	def eval(self, state):
-		v, p = self.run_prediction(state, gradient = False)
+	def eval(self, state, action):
+		n_state, swap = self.game.next_state(state, action)
+		v, p = self.run_prediction(n_state, gradient = False)
+		if swap:
+			return -v[0]
 		return v[0]
 	
 	def prior(self, state):
 		v, p = self.run_prediction(state, gradient = False)
-		return p[0]
+		return p[0][self.game.possible_actions(state)]
 
 	def run_prediction(self, state, gradient = True):
 		prepared_state = self.prepare_state(state)
