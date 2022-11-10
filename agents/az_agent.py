@@ -76,6 +76,7 @@ class AZAgent(Agent):
 			# Otherwise, proceed to next state
 			state, swap = self.game.next_state(state, action)
 			player = -player if swap else player
+			if swap: state = self.game.swap_perspective(state)
 
 		for i in range(len(history)):
 			history[i][2] *= score
@@ -86,6 +87,7 @@ class AZAgent(Agent):
 		# Initialize optimizers and loss functions
 		optimizer = optim.Adam(self.model.parameters(), lr, weight_decay=1e-5)
 		mse_crit  = nn.MSELoss()
+		softmax	  = nn.Softmax()
 
 		# Run the training loop
 		for i in range(epochs):
@@ -93,11 +95,16 @@ class AZAgent(Agent):
 			
 			loss = torch.tensor([0.0], requires_grad=True)
 
+			debug = True
 			for state, probs, val in history:
 				pred_val, priors = self.run_prediction(state)
 				poss_actions = self.game.possible_actions(state)
-
-				loss = loss + (pred_val-val)**2 - torch.dot(torch.from_numpy(probs).float(), torch.log(priors[0][poss_actions]))
+				priors = priors[0][poss_actions]
+				priors = priors / torch.sum(priors)
+				if debug:
+					print(val, priors.data)
+					debug = False
+				loss = loss + (pred_val-val)**2 - torch.dot(torch.from_numpy(probs).float(), torch.log(priors))
 
 			print("Epoch {}:   loss = {:.5f}".format(i+1, loss.item()))
 
