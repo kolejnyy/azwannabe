@@ -50,3 +50,23 @@ class DoubleResBlock(nn.Module):
 		x = self.resblock2(x)
 
 		return x
+
+
+class TrippleResBlock(nn.Module):
+
+    def __init__(self, in_channels, res1_in, res2_in, res3_in, out_channels) -> None:
+        super().__init__()
+
+        self.conv 		= nn.Conv2d(in_channels, res1_in, 3, padding=1)
+        self.resblock1 	= ResBlock_Classic(res1_in, res2_in)
+        self.resblock2	= ResBlock_Classic(res2_in, res3_in)
+        self.resblock3	= ResBlock_Classic(res3_in, out_channels)
+
+        self.relu 		= nn.ReLU()
+
+    def forward(self, x):
+        x = self.relu(self.conv(x))
+        x = self.resblock1(x)
+        x = self.resblock2(x)
+        x = self.resblock3(x)
+        return x

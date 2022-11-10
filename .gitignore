@@ -24,3 +24,5 @@ searches/__pycache__/minimax.cpython-37.pyc
 model/__pycache__/amphisbaena.cpython-37.pyc
 model/__pycache__/f_extractors.cpython-37.pyc
 model/__pycache__/heads.cpython-37.pyc
+
+weights/*
